@@ -1,0 +1,22 @@
+server:
+  port: 0
+spring:
+  application:
+    name: accounts
+  datasource:
+    url: jdbc:postgresql://localhost:5433/accounts
+    driver-class-name: org.postgresql.Driver
+    username: o
+    password: 34215
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+    user: o
+    password: 34215
+    default-schema: accounts
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

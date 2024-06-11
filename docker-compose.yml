@@ -1,0 +1,30 @@
+services:
+  customers_db:
+    container_name: final_customers_db
+    image: postgresql:16.2
+    environment:
+      POSTGRES_USER: oscirt
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: customers
+    ports:
+      - "5431:5432"
+
+  deposits_db:
+    container_name: final_deposits_db
+    image: postgresql:16.2
+    environment:
+      POSTGRES_USER: tricso
+      POSTGRES_PASSWORD: 54321
+      POSTGRES_DB: deposits
+    ports:
+      - "5432:5432"
+
+  bank_accounts_db:
+    container_name: final_bank_accounts_db
+    image: postgresql:16.2
+    environment:
+      POSTGRES_USER: osc
+      POSTGRES_PASSWORD: 34215
+      POSTGRES_DB: bank_accounts
+    ports:
+      - "5433:5432"
