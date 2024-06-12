@@ -34,7 +34,6 @@ public class AccountController {
      */
     @GetMapping("/current")
     public ResponseEntity<AccountDto> getAccount(@RequestHeader("Authorization") String jwtToken) {
-        String username = jwtUtils.getUsernameFromJwtToken(jwtToken);
         CustomerDto customerDto = customerServiceClient.getCustomerInfoByUsername(jwtToken);
         Account account = accountService.getAccountById(customerDto.getBankAccountId());
         return ResponseEntity
@@ -53,7 +52,6 @@ public class AccountController {
             @RequestHeader("Authorization") String jwtToken,
             @RequestParam Double amount
     ) {
-        String username = jwtUtils.getUsernameFromJwtToken(jwtToken);
         CustomerDto customerDto = customerServiceClient.getCustomerInfoByUsername(jwtToken);
         Account account = accountService.topUpAccount(customerDto.getBankAccountId(), BigDecimal.valueOf(amount));
         return ResponseEntity
@@ -72,8 +70,6 @@ public class AccountController {
             @RequestHeader("Authorization") String jwtToken,
             @RequestParam Double amount
     ) {
-
-        String username = jwtUtils.getUsernameFromJwtToken(jwtToken);
         CustomerDto customerDto = customerServiceClient.getCustomerInfoByUsername(jwtToken);
         Account account = accountService.writeOffAccount(customerDto.getBankAccountId(), BigDecimal.valueOf(amount));
         return ResponseEntity

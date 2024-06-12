@@ -21,16 +21,31 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfiguration {
 
+    /**
+     * Шифратора пароля BCrypt
+     * @return BCrypt шифратор пароля
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Фильтр аутентификации
+     * @param basicJwtUtils базовые функции для работы с JWT токеном
+     * @param customerService сервис работы с клиентом
+     * @return фильтр аутентификации
+     */
     @Bean
     public AuthTokenFilter authenticationTokenFilter(BasicJwtUtils basicJwtUtils, CustomerServiceImpl customerService) {
         return new AuthTokenFilter(basicJwtUtils, customerService);
     }
 
+    /**
+     * Выбор способа хранения данных клиентов
+     * @param customerService сервис клиентов
+     * @return провайдер для доступа к данным клиентов
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider(CustomerServiceImpl customerService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -41,11 +56,19 @@ public class SecurityConfiguration {
         return authenticationProvider;
     }
 
+    /**
+     * Менеджер аутентификации
+     * @param configuration конфигурация аутентификации
+     * @return менеджер аутентификации
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
+    /**
+     * Цепочка фильтрации
+     */
     @Bean
     public SecurityFilterChain filterChain(
             HttpSecurity httpSecurity,

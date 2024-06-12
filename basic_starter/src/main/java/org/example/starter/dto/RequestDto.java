@@ -32,5 +32,5 @@ public class RequestDto {
     /**
      * Идентификатор депозита
      */
-    private Integer depositId;
+    private Long depositId;
 }

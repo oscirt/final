@@ -30,6 +30,10 @@ public class GatewayConfig {
                         .path("/account/**")
                         .filters(f -> f.filter(filter))
                         .uri("lb://accounts"))
+                .route("deposits", r -> r
+                        .path("/deposits/**")
+                        .filters(f -> f.filter(filter))
+                        .uri("lb://deposits"))
                 .build();
     }
 }

@@ -18,7 +18,12 @@ public class DepositDto {
     /**
      * Идентификатор депозита
      */
-    private Integer id;
+    private Long id;
+
+    /**
+     * Идентификатор клиента
+     */
+    private Long customerId;
 
     /**
      * Идентификатор счета вклада
@@ -78,5 +83,5 @@ public class DepositDto {
     /**
      * Счет возвращения вклада
      */
-    private Integer deposit_refund_account_id;
+    private Integer refundAccountId;
 }

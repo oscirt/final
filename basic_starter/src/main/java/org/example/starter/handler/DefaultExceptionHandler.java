@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.RestClientException;
 
 /**
  * Стандартный обработчик исключений
@@ -59,6 +60,18 @@ public class DefaultExceptionHandler {
      */
     @ExceptionHandler(InnerException.class)
     public ResponseEntity<ErrorResponse> handleInnerException(InnerException e) {
+        ErrorResponse response = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
+    }
+
+    /**
+     * Обработка исключения {@link RestClientException}
+     * @param e исключение {@link RestClientException}
+     * @return ответ, содержащий причину ошибки и статус код
+     */
+    @ExceptionHandler(RestClientException.class)
+    public ResponseEntity<ErrorResponse> handleRestClientException(RestClientException e) {
         ErrorResponse response = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response);

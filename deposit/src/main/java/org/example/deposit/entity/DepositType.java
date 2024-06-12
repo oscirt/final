@@ -20,6 +20,6 @@ public class DepositType {
     @Column(name = "id_deposit_types")
     private Integer id;
 
-    @Column(name = "deposits_types_name")
+    @Column(name = "deposits_types_name", nullable = false)
     private String name;
 }

@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS deposits.types_percent_payment
 
 CREATE TABLE IF NOT EXISTS deposits.deposits
 (
-    id_deposit                 SERIAL,
+    id_deposit                 BIGSERIAL,
+    customer_id                BIGINT         NOT NULL,
     deposit_account_id         INT            NOT NULL,
     deposit_type_id            INT            NOT NULL,
     deposit_refill             BOOLEAN        NOT NULL,
@@ -32,12 +33,4 @@ CREATE TABLE IF NOT EXISTS deposits.deposits
     PRIMARY KEY (id_deposit),
     FOREIGN KEY (deposit_type_id) REFERENCES deposits.deposits_types (id_deposit_types),
     FOREIGN KEY (type_percent_payment_id) REFERENCES deposits.types_percent_payment (id_type_percent_payment)
-);
-
-CREATE TABLE IF NOT EXISTS deposits.customers_deposits
-(
-    customer_id INT,
-    deposit_id  INT,
-    PRIMARY KEY (customer_id, deposit_id),
-    FOREIGN KEY (deposit_id) REFERENCES deposits(id_deposit)
 );

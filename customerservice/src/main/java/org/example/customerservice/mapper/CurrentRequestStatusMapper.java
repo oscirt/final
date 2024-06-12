@@ -10,8 +10,8 @@ public class CurrentRequestStatusMapper {
 
     public static CurrentRequestStatusDto toDto(CurrentRequestStatus currentRequestStatus) {
         return new CurrentRequestStatusDto(
-                currentRequestStatus.getRequest().getId(),
-                currentRequestStatus.getRequestStatus().getId(),
+                currentRequestStatus.getCurrentRequestStatusId().getRequest().getId(),
+                currentRequestStatus.getCurrentRequestStatusId().getRequestStatus().getId(),
                 currentRequestStatus.getChangeDatetime()
         );
     }

@@ -20,6 +20,6 @@ public class DepositPercentType {
     @Column(name = "id_type_percent_payment")
     private Integer id;
 
-    @Column(name = "type_percent_payment_period")
+    @Column(name = "type_percent_payment_period", nullable = false)
     private String name;
 }

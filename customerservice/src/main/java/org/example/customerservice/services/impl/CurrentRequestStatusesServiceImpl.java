@@ -28,9 +28,9 @@ public class CurrentRequestStatusesServiceImpl implements CurrentRequestStatuses
     @Override
     @Transactional(readOnly = true)
     public CurrentRequestStatus getCurrentRequestStatusByRequestId(Long requestId) {
-        return currentRequestStatusesRepository.findByRequestIdOrderByChangeDatetimeDesc(requestId)
+        return currentRequestStatusesRepository.findLatestStatusByRequestId(requestId)
                 .orElseThrow(() -> new IntentionException(String.format(
-                        "Запроса с идентификатором %d не существует.",
+                        "Запроса с идентификатором %s не существует.",
                         requestId
                 )));
     }
@@ -43,6 +43,16 @@ public class CurrentRequestStatusesServiceImpl implements CurrentRequestStatuses
     @Override
     @Transactional(readOnly = true)
     public List<CurrentRequestStatus> getRequestStatusHistoryByRequestId(Long requestId) {
-        return currentRequestStatusesRepository.findAllByRequestId(requestId);
+        return currentRequestStatusesRepository.findAllStatuses(requestId);
+    }
+
+    /**
+     * Создание записи об изменении статуса запроса
+     * @param requestStatus текущий статус запроса
+     * @return созданный объект изменения статуса запроса
+     */
+    @Override
+    public CurrentRequestStatus createCurrentRequestStatus(CurrentRequestStatus requestStatus) {
+        return currentRequestStatusesRepository.save(requestStatus);
     }
 }

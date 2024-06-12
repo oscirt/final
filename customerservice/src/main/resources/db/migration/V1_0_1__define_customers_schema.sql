@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS customers.requests
     id_request   BIGSERIAL,
     customer_id  BIGINT NOT NULL,
     request_date DATE   NOT NULL,
-    deposits_id  INT,
+    deposits_id  BIGINT,
     PRIMARY KEY (id_request)
 );
 

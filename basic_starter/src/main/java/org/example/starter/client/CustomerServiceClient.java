@@ -47,7 +47,7 @@ public class CustomerServiceClient {
     public CustomerDto getCustomerInfoByUsername(String jwtToken) {
         log.info("Отправляем запрос сервису {} на получение информации о пользователе", SERVICE_NAME);
 
-        ResponseEntity<?> customerInfo = restTemplate.exchange(
+        ResponseEntity<CustomerDto> customerInfo = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + GET_CUSTOMER_INFO)
                         .toUriString(),
                 HttpMethod.GET,
@@ -55,12 +55,7 @@ public class CustomerServiceClient {
                 CustomerDto.class
         );
 
-        if (!customerInfo.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) customerInfo.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (CustomerDto) customerInfo.getBody();
+        return customerInfo.getBody();
     }
 
     /**
@@ -71,7 +66,7 @@ public class CustomerServiceClient {
     public RequestDto[] getCustomerRequestsByUsername(String jwtToken) {
         log.info("Отправляем запрос сервису {} на получение информации о заявках пользователя", SERVICE_NAME);
 
-        ResponseEntity<?> requestDto = restTemplate.exchange(
+        ResponseEntity<RequestDto[]> requestDto = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + GET_CUSTOMER_REQUESTS)
                         .toUriString(),
                 HttpMethod.GET,
@@ -79,12 +74,7 @@ public class CustomerServiceClient {
                 RequestDto[].class
         );
 
-        if (!requestDto.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) requestDto.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (RequestDto[]) requestDto.getBody();
+        return requestDto.getBody();
     }
 
     /**
@@ -102,7 +92,7 @@ public class CustomerServiceClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<RequestDto> postHttpEntity = new HttpEntity<>(requestDto, headers);
 
-        ResponseEntity<?> requestEntity = restTemplate.exchange(
+        ResponseEntity<RequestDto> requestEntity = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + POST_REQUEST)
                         .toUriString(),
                 HttpMethod.POST,
@@ -110,12 +100,7 @@ public class CustomerServiceClient {
                 RequestDto.class
         );
 
-        if (!requestEntity.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) requestEntity.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (RequestDto) requestEntity.getBody();
+        return requestEntity.getBody();
     }
 
     /**
@@ -130,7 +115,7 @@ public class CustomerServiceClient {
 
         String getCurrentRequestStatusUrl = GET_CURRENT_REQUEST_STATUS.replaceFirst("\\{}", requestId);
 
-        ResponseEntity<?> customerInfo = restTemplate.exchange(
+        ResponseEntity<CurrentRequestStatusDto> customerInfo = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + getCurrentRequestStatusUrl)
                         .toUriString(),
                 HttpMethod.GET,
@@ -138,12 +123,7 @@ public class CustomerServiceClient {
                 CurrentRequestStatusDto.class
         );
 
-        if (!customerInfo.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) customerInfo.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (CurrentRequestStatusDto) customerInfo.getBody();
+        return customerInfo.getBody();
     }
 
     /**
@@ -158,7 +138,7 @@ public class CustomerServiceClient {
 
         String getAllRequestStatuses = GET_ALL_REQUEST_STATUSES.replaceFirst("\\{}", requestId);
 
-        ResponseEntity<?> customerInfo = restTemplate.exchange(
+        ResponseEntity<CurrentRequestStatusDto[]> customerInfo = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + getAllRequestStatuses)
                         .toUriString(),
                 HttpMethod.GET,
@@ -166,12 +146,7 @@ public class CustomerServiceClient {
                 CurrentRequestStatusDto[].class
         );
 
-        if (!customerInfo.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) customerInfo.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (CurrentRequestStatusDto[]) customerInfo.getBody();
+        return customerInfo.getBody();
     }
 
     /**
@@ -182,7 +157,7 @@ public class CustomerServiceClient {
     public RequestStatusDto[] getRequestStatuses(String jwtToken) {
         log.info("Отправляем запрос сервису {} на получение информации о возможных статусах", SERVICE_NAME);
 
-        ResponseEntity<?> customerInfo = restTemplate.exchange(
+        ResponseEntity<RequestStatusDto[]> customerInfo = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + GET_REQUEST_STATUSES)
                         .toUriString(),
                 HttpMethod.GET,
@@ -190,12 +165,7 @@ public class CustomerServiceClient {
                 RequestStatusDto[].class
         );
 
-        if (!customerInfo.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) customerInfo.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (RequestStatusDto[]) customerInfo.getBody();
+        return customerInfo.getBody();
     }
 
     private HttpEntity<String> prepareHttpEntity(String jwtToken) {

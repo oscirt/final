@@ -14,4 +14,11 @@ public interface RequestStatusesService {
      * @return список статусов запросов
      */
     List<RequestStatus> getAllRequestStatuses();
+
+    /**
+     * Получение статуса запроса по id
+     * @param requestStatusId идентификатор статуса запроса
+     * @return статус запроса
+     */
+    RequestStatus getRequestStatus(Integer requestStatusId);
 }

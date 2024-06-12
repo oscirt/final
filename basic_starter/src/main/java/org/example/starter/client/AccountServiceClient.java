@@ -4,17 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.example.starter.dto.AccountDto;
 import org.example.starter.exception.InnerException;
-import org.example.starter.exception.IntentionException;
-import org.example.starter.dto.response.ErrorResponse;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * HTTP клиент для отправления запросов сервису account
@@ -43,9 +43,9 @@ public class AccountServiceClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", jwtToken);
-        HttpEntity<AccountDto> entity = new HttpEntity<>(headers);
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> accountDto = restTemplate.exchange(
+        ResponseEntity<AccountDto> accountDto = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + GET_CUSTOMER_ACCOUNT)
                         .toUriString(),
                 HttpMethod.GET,
@@ -53,12 +53,7 @@ public class AccountServiceClient {
                 AccountDto.class
         );
 
-        if (!accountDto.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) accountDto.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (AccountDto) accountDto.getBody();
+        return accountDto.getBody();
     }
 
     /**
@@ -72,10 +67,9 @@ public class AccountServiceClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", jwtToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> postHttpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> account = restTemplate.exchange(
+        ResponseEntity<AccountDto> accountDto = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + POST_ACCOUNT_TOP_UP)
                         .queryParam("amount", amount).toUriString(),
                 HttpMethod.POST,
@@ -83,12 +77,7 @@ public class AccountServiceClient {
                 AccountDto.class
         );
 
-        if (!account.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) account.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (AccountDto) account.getBody();
+        return accountDto.getBody();
     }
 
     /**
@@ -102,10 +91,9 @@ public class AccountServiceClient {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", jwtToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Void> postHttpEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<?> account = restTemplate.exchange(
+        ResponseEntity<AccountDto> accountDto = restTemplate.exchange(
                 UriComponentsBuilder.fromHttpUrl(getServiceInstance().getUri().toString() + POST_ACCOUNT_WRITE_OFF)
                         .queryParam("amount", amount).toUriString(),
                 HttpMethod.POST,
@@ -113,12 +101,7 @@ public class AccountServiceClient {
                 AccountDto.class
         );
 
-        if (!account.getStatusCode().is2xxSuccessful()) {
-            ErrorResponse errorResponse = (ErrorResponse) account.getBody();
-            throw new IntentionException(Objects.requireNonNull(errorResponse).getReason());
-        }
-
-        return (AccountDto) account.getBody();
+        return accountDto.getBody();
     }
 
     private ServiceInstance getServiceInstance() {

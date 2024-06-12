@@ -22,4 +22,11 @@ public interface CurrentRequestStatusesService {
      * @return список статусов определенной заявки
      */
     List<CurrentRequestStatus> getRequestStatusHistoryByRequestId(Long requestId);
+
+    /**
+     * Создание записи изменения статуса
+     * @param requestStatus текущий статус запроса
+     * @return созданный объект записи изменения статуса
+     */
+    CurrentRequestStatus createCurrentRequestStatus(CurrentRequestStatus requestStatus);
 }
