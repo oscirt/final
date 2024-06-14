@@ -1,6 +1,6 @@
 package org.example.starter.handler;
 
-import org.example.starter.dto.response.ErrorResponse;
+import feign.FeignException;
 import org.example.starter.exception.InnerException;
 import org.example.starter.exception.IntentionException;
 import org.example.starter.exception.NotFoundException;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.RestClientException;
 
 /**
  * Стандартный обработчик исключений
@@ -66,12 +65,12 @@ public class DefaultExceptionHandler {
     }
 
     /**
-     * Обработка исключения {@link RestClientException}
-     * @param e исключение {@link RestClientException}
+     * Обработка исключения {@link FeignException}
+     * @param e исключение {@link FeignException}
      * @return ответ, содержащий причину ошибки и статус код
      */
-    @ExceptionHandler(RestClientException.class)
-    public ResponseEntity<ErrorResponse> handleRestClientException(RestClientException e) {
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<ErrorResponse> handleFeignClientException(FeignException.FeignClientException e) {
         ErrorResponse response = new ErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(response);

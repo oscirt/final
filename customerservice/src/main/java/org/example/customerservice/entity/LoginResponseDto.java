@@ -1,4 +1,4 @@
-package org.example.starter.dto.response;
+package org.example.customerservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

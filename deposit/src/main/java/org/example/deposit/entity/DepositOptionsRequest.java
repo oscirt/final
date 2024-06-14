@@ -1,4 +1,4 @@
-package org.example.api_gateway.entity.request;
+package org.example.deposit.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
